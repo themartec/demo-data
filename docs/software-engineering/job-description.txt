@@ -1,0 +1,7 @@
+Job Title: Site Reliability Engineer
+Department: Platform Engineering
+Region: Remote, US
+
+Cascadia Cloud Systems is looking for a Site Reliability Engineer to own production reliability for our core platform services. Responsibilities include participating in an on-call rotation, leading incident response and postmortems, and driving capacity planning ahead of major traffic events.
+
+The ideal candidate has 4+ years of SRE or infrastructure experience, strong Kubernetes and observability tooling knowledge, and is comfortable working fully remote across US time zones.

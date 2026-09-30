@@ -1,0 +1,97 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <title>demo-data — QA fixtures</title>
+  <style>
+    body { font-family: system-ui, sans-serif; max-width: 860px; margin: 2rem auto; padding: 0 1rem; line-height: 1.5; }
+    code { background: #f0f0f0; padding: 0.1rem 0.3rem; border-radius: 3px; }
+    section { margin-bottom: 2rem; }
+    ul { padding-left: 1.2rem; }
+    .note { color: #555; font-size: 0.95rem; }
+  </style>
+</head>
+<body>
+  <h1>demo-data</h1>
+  <p>
+    Static, self-hosted test fixtures for QA-ing document/web extraction and
+    browsing tools. See <a href="manifest.json">manifest.json</a> for which
+    file satisfies which test case, and the repo README for how these are
+    generated.
+  </p>
+  <p class="note">
+    All company and competitor names below are fictional, modelled on a real customer's
+    industry without naming them.
+  </p>
+
+  <section>
+    <h2>Multi-page careers site — simple case</h2>
+    <p>Plain static HTML, no JS, no query-string pagination — deliberately "simple case, not SPA".</p>
+    <ul>
+      <li><a href="careers-site/index.html">Page 1</a></li>
+      <li><a href="careers-site/page-2.html">Page 2</a></li>
+      <li><a href="careers-site/page-3.html">Page 3</a></li>
+      <li><a href="careers-site/js-decoy.html">JS-decoy (empty-shell negative test)</a></li>
+    </ul>
+  </section>
+
+  <section>
+    <h2>Careers site — SPA (hard case)</h2>
+    <p>
+      Genuinely client-rendered: content only exists after JS runs, and
+      search/pagination/job-detail are all click-driven with no URL change
+      at all (no <code>?q=</code>, no <code>?page=2</code>, no separate page
+      load). Same 6 roles as the simple case above, for direct comparison.
+    </p>
+    <ul>
+      <li><a href="careers-site-spa/index.html">Open</a></li>
+    </ul>
+  </section>
+
+  <section>
+    <h2>Sales / Commercial — Fenwick Retail Group</h2>
+    <ul>
+      <li><a href="sales/job-advert.html">Job advert (HTML)</a> / <a href="sales/job-advert.docx">DOCX</a></li>
+      <li><a href="sales/job-description.txt">Job description (text)</a></li>
+      <li><a href="sales/hiring-forecast.xlsx">Hiring forecast (XLSX)</a> / <a href="sales/hiring-forecast.pptx">PPTX</a> / <a href="sales/hiring-forecast.docx">DOCX</a></li>
+      <li><a href="sales/hiring-strategy.docx">Hiring strategy (DOCX)</a></li>
+      <li><a href="sales/market-research.html">Market research (HTML)</a></li>
+    </ul>
+  </section>
+
+  <section>
+    <h2>Software Engineering — Cascadia Cloud Systems</h2>
+    <ul>
+      <li><a href="software-engineering/job-advert.html">Job advert (HTML)</a> / <a href="software-engineering/job-advert.docx">DOCX</a></li>
+      <li><a href="software-engineering/job-description.txt">Job description (text)</a></li>
+      <li><a href="software-engineering/hiring-forecast.xlsx">Hiring forecast (XLSX)</a> / <a href="software-engineering/hiring-forecast.pptx">PPTX</a> / <a href="software-engineering/hiring-forecast.docx">DOCX</a></li>
+      <li><a href="software-engineering/hiring-strategy.docx">Hiring strategy (DOCX)</a></li>
+      <li><a href="software-engineering/market-research.html">Market research (HTML)</a></li>
+    </ul>
+  </section>
+
+  <section>
+    <h2>Hospitality Operations — Northbridge Hotels &amp; Resorts</h2>
+    <ul>
+      <li><a href="hospitality-operations/job-advert.html">Job advert (HTML)</a> / <a href="hospitality-operations/job-advert.docx">DOCX</a></li>
+      <li><a href="hospitality-operations/job-description.txt">Job description (text)</a></li>
+      <li><a href="hospitality-operations/hiring-forecast.xlsx">Hiring forecast (XLSX)</a> / <a href="hospitality-operations/hiring-forecast.pptx">PPTX</a> / <a href="hospitality-operations/hiring-forecast.docx">DOCX</a></li>
+      <li><a href="hospitality-operations/hiring-strategy.docx">Hiring strategy (DOCX)</a></li>
+      <li><a href="hospitality-operations/market-research.html">Market research (HTML)</a></li>
+    </ul>
+  </section>
+
+  <section>
+    <h2>Edge cases</h2>
+    <ul>
+      <li><a href="edge-cases/merged-cell-headers.xlsx">Merged header cells + spacer row (XLSX)</a></li>
+      <li><a href="edge-cases/mixed-language.docx">Mid-document language switch (DOCX)</a></li>
+    </ul>
+  </section>
+
+  <section>
+    <h2>Live-search-only acceptance criteria</h2>
+    <p>No fixture needed — see <code>notCovered</code> in <a href="manifest.json">manifest.json</a> for suggested real search targets (employer comparisons, talent-pool research, etc.).</p>
+  </section>
+</body>
+</html>

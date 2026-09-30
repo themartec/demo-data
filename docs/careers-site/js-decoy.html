@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <title>Fenwick Retail Group Careers (client-rendered)</title>
+</head>
+<body>
+  <h1>Fenwick Retail Group — Careers</h1>
+
+  <!--
+    Negative-test fixture: a plain/static fetch of this page must NOT see any
+    job listings — only this shell and the noscript fallback below. Job cards
+    are injected by the script at the bottom, mimicking a client-rendered SPA
+    careers page (the "not simple" case the multipage fixture is deliberately
+    NOT). Use this to verify a tool correctly detects it needs a real browser
+    rather than reporting zero jobs as if the search matched nothing.
+  -->
+  <div id="job-list"></div>
+
+  <noscript>
+    <p>This page requires JavaScript to display job listings.</p>
+  </noscript>
+
+  <script>
+    document.getElementById('job-list').innerHTML =
+      '<h2>Regional Sales Manager</h2><p>Department: Commercial</p><p>Region: North West, UK</p>';
+  </script>
+</body>
+</html>

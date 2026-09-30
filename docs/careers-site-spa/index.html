@@ -1,0 +1,128 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <title>Careers (client-rendered)</title>
+  <style>
+    body { font-family: system-ui, sans-serif; max-width: 640px; margin: 2rem auto; padding: 0 1rem; }
+    .job { border-bottom: 1px solid #ddd; padding: 1rem 0; }
+    .job h3 { margin: 0 0 0.3rem; cursor: pointer; color: #1a5cff; }
+    button { margin-right: 0.5rem; padding: 0.4rem 0.8rem; }
+    #pageInfo { font-size: 0.9rem; color: #555; }
+  </style>
+</head>
+<body>
+  <!--
+    Harder negative/positive-test fixture than ../careers-site/js-decoy.html:
+    that one is a single empty shell. This is a small but genuine SPA —
+    everything below is rendered by JS, and BOTH the search and the
+    pagination are click-driven with no URL change (no ?q=, no ?page=2,
+    no separate page load, no pushState). A URL-guessing approach that
+    works against ../careers-site/ (plain <a href> links) gets nothing
+    here: every "page" is the same URL, and content only exists after
+    (a) the script below runs, and (b) for anything past page 1 or a
+    filtered search, an actual click on a button. A tool needs real
+    browser automation with element interaction (find "Search", fill,
+    click; find "Next", click) to read this site at all.
+
+    Same 6 sales roles as ../sales/ and ../careers-site/, so results can
+    be compared directly against the static/document fixtures for the
+    same underlying data.
+  -->
+  <h1>Careers</h1>
+  <div id="app"></div>
+  <noscript><p>This page requires JavaScript.</p></noscript>
+
+  <script>
+    const JOBS = [
+      { title: 'Regional Sales Manager', department: 'Commercial', region: 'North West, UK',
+        description: 'Owns commercial performance across a cluster of stores, coaching store-level sales teams and running weekly trading reviews.' },
+      { title: 'Key Account Executive', department: 'Commercial', region: 'London, UK',
+        description: 'Manages supplier and wholesale account relationships, negotiating annual trading terms and promotional calendars.' },
+      { title: 'Store Sales Associate', department: 'Retail Operations', region: 'Manchester, UK',
+        description: 'Front-of-store customer service and till operations, with a focus on basket-building and loyalty sign-ups.' },
+      { title: 'Trade Marketing Executive', department: 'Marketing', region: 'Leeds, UK',
+        description: 'Builds in-store promotional campaigns and point-of-sale materials in partnership with category buyers.' },
+      { title: 'E-commerce Sales Analyst', department: 'E-commerce', region: 'Remote, UK',
+        description: 'Analyses online basket and conversion data to recommend pricing and merchandising changes for the online store.' },
+      { title: 'Wholesale Sales Coordinator', department: 'Commercial', region: 'Birmingham, UK',
+        description: 'Coordinates order processing and delivery scheduling for bulk and wholesale customer accounts.' },
+    ];
+    const PAGE_SIZE = 3;
+
+    let searchDraft = '';
+    let activeFilter = '';
+    let page = 1;
+    let detailIndex = null; // index into `filtered()` when viewing one job
+
+    function filtered() {
+      const term = activeFilter.trim().toLowerCase();
+      if (!term) return JOBS;
+      return JOBS.filter((j) => j.title.toLowerCase().includes(term));
+    }
+
+    function escapeHtml(s) {
+      return s.replace(/[&<>"']/g, (c) => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' }[c]));
+    }
+
+    function render() {
+      const app = document.getElementById('app');
+      const results = filtered();
+
+      if (detailIndex !== null) {
+        const job = results[detailIndex];
+        app.innerHTML =
+          '<div class="job">' +
+          '<h2>' + escapeHtml(job.title) + '</h2>' +
+          '<p><strong>Department:</strong> ' + escapeHtml(job.department) + '</p>' +
+          '<p><strong>Region:</strong> ' + escapeHtml(job.region) + '</p>' +
+          '<p>' + escapeHtml(job.description) + '</p>' +
+          '</div>' +
+          '<button id="backBtn">&laquo; Back to results</button>';
+        document.getElementById('backBtn').onclick = () => { detailIndex = null; render(); };
+        return;
+      }
+
+      const totalPages = Math.max(1, Math.ceil(results.length / PAGE_SIZE));
+      if (page > totalPages) page = totalPages;
+      const pageItems = results.slice((page - 1) * PAGE_SIZE, page * PAGE_SIZE);
+
+      let html =
+        '<input id="searchBox" type="text" placeholder="Search jobs" value="' + escapeHtml(searchDraft) + '">' +
+        '<button id="searchBtn">Search</button>';
+
+      if (pageItems.length === 0) {
+        html += '<p>No jobs match your search.</p>';
+      } else {
+        for (let i = 0; i < pageItems.length; i++) {
+          const job = pageItems[i];
+          const resultIndex = (page - 1) * PAGE_SIZE + i;
+          html +=
+            '<div class="job">' +
+            '<h3 data-index="' + resultIndex + '">' + escapeHtml(job.title) + '</h3>' +
+            '<p><strong>Department:</strong> ' + escapeHtml(job.department) + '</p>' +
+            '<p><strong>Region:</strong> ' + escapeHtml(job.region) + '</p>' +
+            '</div>';
+        }
+      }
+
+      html +=
+        '<p id="pageInfo">Page ' + page + ' of ' + totalPages + ' (' + results.length + ' result' + (results.length === 1 ? '' : 's') + ')</p>' +
+        '<button id="prevBtn" ' + (page <= 1 ? 'disabled' : '') + '>&laquo; Previous</button>' +
+        '<button id="nextBtn" ' + (page >= totalPages ? 'disabled' : '') + '>Next &raquo;</button>';
+
+      app.innerHTML = html;
+
+      document.getElementById('searchBox').oninput = (e) => { searchDraft = e.target.value; };
+      document.getElementById('searchBtn').onclick = () => { activeFilter = searchDraft; page = 1; render(); };
+      document.getElementById('prevBtn').onclick = () => { page -= 1; render(); };
+      document.getElementById('nextBtn').onclick = () => { page += 1; render(); };
+      for (const h of app.querySelectorAll('h3[data-index]')) {
+        h.onclick = () => { detailIndex = Number(h.getAttribute('data-index')); render(); };
+      }
+    }
+
+    render();
+  </script>
+</body>
+</html>

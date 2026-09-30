@@ -1,0 +1,158 @@
+{
+  "note": "All company and competitor names below are fictional, modelled on real-world industries without naming any real company. See README.md.",
+  "fields": [
+    {
+      "key": "sales",
+      "label": "Sales / Commercial",
+      "company": "Fenwick Retail Group (fictional, models grocery/general retail)",
+      "files": [
+        {
+          "path": "sales/job-advert.html",
+          "satisfies": ["job advert given as URL", "job advert given as document"],
+          "source": "synthetic"
+        },
+        {
+          "path": "sales/job-advert.docx",
+          "satisfies": ["job advert given as document"],
+          "source": "synthetic"
+        },
+        {
+          "path": "sales/job-description.txt",
+          "satisfies": ["job description given as text"],
+          "source": "synthetic"
+        },
+        {
+          "path": "sales/hiring-forecast.xlsx",
+          "satisfies": ["extract role, description, department, region from XLSX"],
+          "source": "synthetic"
+        },
+        {
+          "path": "sales/hiring-forecast.pptx",
+          "satisfies": ["extract role, description, department, region from PPTX"],
+          "source": "synthetic"
+        },
+        {
+          "path": "sales/hiring-forecast.docx",
+          "satisfies": ["hiring forecast document is read (DOCX variant)"],
+          "source": "synthetic"
+        },
+        {
+          "path": "sales/hiring-strategy.docx",
+          "satisfies": ["recap the hiring strategy from a document", "search for what the talent pool cares about, given a hiring strategy"],
+          "source": "synthetic"
+        },
+        {
+          "path": "sales/market-research.html",
+          "satisfies": ["extract existing market research", "extract competitor names"],
+          "source": "synthetic",
+          "competitorsNamed": ["Alderton Foods", "Bramwell Grocers", "Continental Mart"]
+        }
+      ]
+    },
+    {
+      "key": "software-engineering",
+      "label": "Software Engineering",
+      "company": "Cascadia Cloud Systems (fictional, models cloud infrastructure/enterprise software)",
+      "files": [
+        { "path": "software-engineering/job-advert.html", "satisfies": ["job advert given as URL", "job advert given as document"], "source": "synthetic" },
+        { "path": "software-engineering/job-advert.docx", "satisfies": ["job advert given as document"], "source": "synthetic" },
+        { "path": "software-engineering/job-description.txt", "satisfies": ["job description given as text"], "source": "synthetic" },
+        { "path": "software-engineering/hiring-forecast.xlsx", "satisfies": ["extract role, description, department, region from XLSX"], "source": "synthetic" },
+        { "path": "software-engineering/hiring-forecast.pptx", "satisfies": ["extract role, description, department, region from PPTX"], "source": "synthetic" },
+        { "path": "software-engineering/hiring-forecast.docx", "satisfies": ["hiring forecast document is read (DOCX variant)"], "source": "synthetic" },
+        { "path": "software-engineering/hiring-strategy.docx", "satisfies": ["recap the hiring strategy from a document", "search for what the talent pool cares about, given a hiring strategy"], "source": "synthetic" },
+        {
+          "path": "software-engineering/market-research.html",
+          "satisfies": ["extract existing market research", "extract competitor names"],
+          "source": "synthetic",
+          "competitorsNamed": ["Vantage Cloud", "Northfield Systems", "Ionix Data"]
+        }
+      ]
+    },
+    {
+      "key": "hospitality-operations",
+      "label": "Hospitality Operations",
+      "company": "Northbridge Hotels & Resorts (fictional, models hospitality/hotel operations)",
+      "files": [
+        { "path": "hospitality-operations/job-advert.html", "satisfies": ["job advert given as URL", "job advert given as document"], "source": "synthetic" },
+        { "path": "hospitality-operations/job-advert.docx", "satisfies": ["job advert given as document"], "source": "synthetic" },
+        { "path": "hospitality-operations/job-description.txt", "satisfies": ["job description given as text"], "source": "synthetic" },
+        { "path": "hospitality-operations/hiring-forecast.xlsx", "satisfies": ["extract role, description, department, region from XLSX"], "source": "synthetic" },
+        { "path": "hospitality-operations/hiring-forecast.pptx", "satisfies": ["extract role, description, department, region from PPTX"], "source": "synthetic" },
+        { "path": "hospitality-operations/hiring-forecast.docx", "satisfies": ["hiring forecast document is read (DOCX variant)"], "source": "synthetic" },
+        { "path": "hospitality-operations/hiring-strategy.docx", "satisfies": ["recap the hiring strategy from a document", "search for what the talent pool cares about, given a hiring strategy"], "source": "synthetic" },
+        {
+          "path": "hospitality-operations/market-research.html",
+          "satisfies": ["extract existing market research", "extract competitor names"],
+          "source": "synthetic",
+          "competitorsNamed": ["Aldermere Resorts", "Crestline Inns", "Solaire Hospitality Group"]
+        }
+      ]
+    }
+  ],
+  "sharedFixtures": [
+    {
+      "path": "careers-site/index.html",
+      "satisfies": ["given a multipage website, extract role/description/department/region for a series of job ads"],
+      "notes": "Deliberately plain static HTML, no JS, no query-string pagination — 3 pages linked via <a href> only, per the AC's 'simple case (not SPA)' requirement.",
+      "source": "synthetic"
+    },
+    {
+      "path": "careers-site/page-2.html",
+      "satisfies": ["given a multipage website, extract role/description/department/region for a series of job ads"],
+      "source": "synthetic"
+    },
+    {
+      "path": "careers-site/page-3.html",
+      "satisfies": ["given a multipage website, extract role/description/department/region for a series of job ads"],
+      "source": "synthetic"
+    },
+    {
+      "path": "careers-site/js-decoy.html",
+      "satisfies": ["negative test: a tool should detect it needs a real browser here, not report zero results"],
+      "notes": "Job content only appears after a <script> runs; a plain/static fetch sees only the shell + noscript fallback.",
+      "source": "synthetic"
+    },
+    {
+      "path": "careers-site-spa/index.html",
+      "satisfies": [
+        "given a multipage website, extract role/description/department/region for a series of job ads",
+        "negative test: a tool should detect it needs a real browser and real interaction, not just a URL/query-param guess"
+      ],
+      "notes": "Harder than js-decoy.html: a genuine small SPA (vanilla JS, no framework/build step). Content only exists after the inline script runs, and search + pagination + job-detail are all click-driven with no URL change at all — no ?q=, no ?page=2, no pushState. Same 6 roles as careers-site/ and ../sales/, for a direct extraction comparison against the simple-case fixture. Functionally verified with jsdom during authoring (search, pagination, detail view, back navigation).",
+      "source": "synthetic"
+    }
+  ],
+  "edgeCases": [
+    {
+      "path": "edge-cases/merged-cell-headers.xlsx",
+      "satisfies": ["extract role, description, department, region from XLSX"],
+      "notes": "Header row merges 'Role' and 'Description' into one cell, with a blank spacer row before the data — tests against a naive 'row 1 = distinct headers' assumption.",
+      "source": "synthetic, roles reused from the sales field"
+    },
+    {
+      "path": "edge-cases/mixed-language.docx",
+      "satisfies": ["recap the hiring strategy from a document"],
+      "notes": "An English hiring-strategy addendum that switches into French for one section without warning, then back to English — tests whether extraction breaks or silently drops content on a language switch.",
+      "source": "synthetic, extends the software-engineering field's strategy doc"
+    }
+  ],
+  "notCovered": [
+    {
+      "ac": "given a hiring strategy, search (documents or internet) for what the talent pool cares about, and display that",
+      "why": "This is a live-search AC, not a static fixture. Use any hiring-strategy.docx above as the input, and run the search live against the real internet."
+    },
+    {
+      "ac": "use internet search to extract \"what wins talent here\", given an employer",
+      "why": "Live-search AC. Suggested test employers (real, for realistic search results): Sainsbury's, Amazon, Marriott, IHG, Mondelez."
+    },
+    {
+      "ac": "given an employer, use internet search to perform a comparison against that employer",
+      "why": "Live-search AC. Suggested real comparison pairs: Marriott vs Hilton, Sainsbury's vs Tesco, Amazon vs Walmart."
+    },
+    {
+      "ac": "given a role, perform an internet search and assess difficulty to hire",
+      "why": "Per the ticket, this AC is pushed to Phase 3 / possibly de-scoped — no fixture needed yet."
+    }
+  ]
+}
