@@ -46,11 +46,24 @@ docs/                          ← GitHub Pages source (Settings → Pages → b
     hiring-forecast.xlsx / .pptx / .docx
     hiring-strategy.docx
     market-research.html
+  shared/                      ← one company's value proposition + employee stories, reused across role/content/brand
+    evp.docx / evp.html
+    testimonials/index.html + one page per story
+  role/                        ← single role + candidate pool scenario (landing page, links into shared/ + software-engineering/)
+  content/                     ← role list vs. testimonial coverage scenario (landing page)
+  brand/                       ← home-market vs. target-market scenario (landing page + 2 region research docs)
   edge-cases/                  ← deliberately awkward fixtures (merged cells, mixed language, ...)
 scripts/
-  fixture-data.ts               ← single source of truth for all per-field content
-  generate-fixtures.ts          ← regenerates every binary (xlsx/pptx/docx) + derived html/txt from fixture-data.ts
+  fixture-data.ts               ← single source of truth for all per-field job-board content
+  generate-fixtures.ts          ← regenerates job-board binaries + derived html/txt from fixture-data.ts
+  skill-fixture-data.ts         ← single source of truth for the EVP, testimonials and region research
+  generate-skill-fixtures.ts    ← regenerates shared/ and brand/*.docx from skill-fixture-data.ts
 ```
+
+`role/`, `content/` and `brand/` are deliberately generic names, not the name of
+whatever feature/skill they're testing — this is a public page, so the landing
+pages describe the *scenario* (single role, role-list coverage, market
+adaptation) rather than naming a product feature.
 
 Plain HTML/text files that are structurally unique (the careers-site pages,
 `index.html`, `manifest.json`) are hand-authored and committed directly — only
@@ -61,12 +74,14 @@ are generated, so there's exactly one place to edit a field's content.
 
 ```sh
 npm install
-npm run generate    # writes into docs/<field>/ and docs/edge-cases/
+npm run generate           # both of the below
+npm run generate:jobs      # writes into docs/<field>/ and docs/edge-cases/
+npm run generate:skills    # writes into docs/shared/ and docs/brand/*.docx
 ```
 
-Re-run this after editing `scripts/fixture-data.ts`, then commit the
-regenerated binaries — they're checked into git (this is published static
-content, not a build artifact anyone downloads pre-built).
+Re-run after editing `scripts/fixture-data.ts` or `scripts/skill-fixture-data.ts`,
+then commit the regenerated binaries — they're checked into git (this is
+published static content, not a build artifact anyone downloads pre-built).
 
 ## Why no Jekyll
 

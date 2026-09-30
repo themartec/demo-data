@@ -123,6 +123,29 @@
       "source": "synthetic"
     }
   ],
+  "scenarios": [
+    {
+      "key": "role",
+      "label": "Single role + candidate pool",
+      "entryPoint": "role/index.html",
+      "uses": ["shared/evp.docx", "shared/testimonials/*.html", "software-engineering/job-advert.html"],
+      "notes": "Testimonial coverage for the suggested role (Senior Backend Engineer) is intentionally strong (2 stories) — pair with the content scenario below to see a role with thin/no coverage instead."
+    },
+    {
+      "key": "content",
+      "label": "Role list vs. testimonial coverage",
+      "entryPoint": "content/index.html",
+      "uses": ["software-engineering/hiring-forecast.xlsx", "shared/evp.docx", "shared/testimonials/*.html"],
+      "notes": "Coverage across the 6-role list is deliberately uneven (2 stories / 1 story / 1 dated story / 0 stories / 0 / 0) — see content/index.html for the exact breakdown. Built to test coverage/gap judgement, not just presence-of-any-content."
+    },
+    {
+      "key": "brand",
+      "label": "Home market vs. target market",
+      "entryPoint": "brand/index.html",
+      "uses": ["shared/evp.docx", "brand/market-research-germany.docx", "brand/market-research-japan.docx", "shared/testimonials/*.html"],
+      "notes": "Two target-market research reports (Germany, Japan), each covering talent market, compensation/benefits, working culture, legal/compliance and recruiting channels, with fictional named local competitors. All existing testimonials are home-market (US) only — no target-market testimonials exist yet, which is the realistic starting point for this scenario."
+    }
+  ],
   "edgeCases": [
     {
       "path": "edge-cases/merged-cell-headers.xlsx",

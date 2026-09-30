@@ -4,7 +4,9 @@
   "private": true,
   "description": "Generated demo/test fixtures published to GitHub Pages (docs/) for QA against chat-based document/web extraction tools.",
   "scripts": {
-    "generate": "ts-node scripts/generate-fixtures.ts"
+    "generate:jobs": "ts-node scripts/generate-fixtures.ts",
+    "generate:skills": "ts-node scripts/generate-skill-fixtures.ts",
+    "generate": "npm run generate:jobs && npm run generate:skills"
   },
   "devDependencies": {
     "@types/node": "^20.14.0",
